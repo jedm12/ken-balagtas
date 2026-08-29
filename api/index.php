@@ -23,35 +23,34 @@ foreach ($directories as $directory) {
     }
 }
 
-// Force serverless-safe env (empty Vercel dashboard values would otherwise break managers).
-$forcedEnv = [
+/*
+ * Blank values (from unset or empty dashboard variables) reach Laravel as empty
+ * strings rather than null, which makes driver managers resolve an empty driver.
+ */
+$serverlessEnv = [
     'APP_ENV' => 'production',
-    'APP_DEBUG' => 'true',
     'APP_KEY' => 'base64:CTWkED3isxDBGheCVTvniEb3kczKAB+z66ItQmihhu0=',
+    'APP_MAINTENANCE_DRIVER' => 'file',
+    'APP_MAINTENANCE_STORE' => 'array',
     'LOG_CHANNEL' => 'stderr',
     'LOG_STACK' => 'stderr',
     'SESSION_DRIVER' => 'array',
     'CACHE_STORE' => 'array',
     'QUEUE_CONNECTION' => 'sync',
-    'MAIL_MAILER' => 'log',
     'FILESYSTEM_DISK' => 'local',
     'BROADCAST_CONNECTION' => 'log',
+    'MAIL_MAILER' => 'log',
+    'DB_CONNECTION' => 'sqlite',
 ];
 
-foreach ($forcedEnv as $key => $value) {
+foreach ($serverlessEnv as $key => $fallback) {
     $current = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
-    if ($current === false || $current === null || $current === '') {
-        putenv("{$key}={$value}");
-        $_ENV[$key] = $value;
-        $_SERVER[$key] = $value;
-    }
-}
 
-// Always force these on Vercel — empty dashboard overrides cause Manager::createDriver() errors.
-foreach (['SESSION_DRIVER' => 'array', 'CACHE_STORE' => 'array', 'LOG_CHANNEL' => 'stderr', 'LOG_STACK' => 'stderr'] as $key => $value) {
-    putenv("{$key}={$value}");
-    $_ENV[$key] = $value;
-    $_SERVER[$key] = $value;
+    if ($current === false || $current === null || trim((string) $current) === '') {
+        putenv("{$key}={$fallback}");
+        $_ENV[$key] = $fallback;
+        $_SERVER[$key] = $fallback;
+    }
 }
 
 require __DIR__.'/../public/index.php';
