@@ -6,7 +6,7 @@ return [
     'title' => 'Financial Account Specialist | Collections | Accounts Receivable Support',
     'tagline' => 'Collections and financial account specialist with 3+ years of experience managing high-volume customer accounts, payment follow-ups, account documentation, billing concerns, and collection performance.',
     'location' => 'Guiguinto, Bulacan, Philippines',
-    'email' => 'ken.balagtas@outlook.com',
+    'email' => 'ken11balagtas@outlook.com',
     'phone' => '+63 961-680-7714',
     'resume_url' => 'mailto:ken11balagtas@outlook.com?subject=request%20resume',
     'photo_url' => '/images/Ken-Balagtas-Latest.jpeg',
