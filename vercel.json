@@ -33,6 +33,7 @@
         "SESSION_DRIVER": "cookie",
         "QUEUE_CONNECTION": "sync",
         "LOG_CHANNEL": "stderr",
+        "LOG_STACK": "stderr",
         "MAIL_MAILER": "log"
     }
 }
