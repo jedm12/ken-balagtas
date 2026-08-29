@@ -32,6 +32,11 @@
         }
     },
     "scripts": {
+        "vercel": [
+            "@php -r \"file_exists('storage/framework/views') || mkdir('storage/framework/views', 0755, true);\"",
+            "@php -r \"file_exists('storage/framework/cache') || mkdir('storage/framework/cache', 0755, true);\"",
+            "@php -r \"file_exists('storage/logs') || mkdir('storage/logs', 0755, true);\""
+        ],
         "setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
